@@ -1,6 +1,3 @@
-from random import randint, shuffle
-
-# Set empty board
 board = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -12,44 +9,6 @@ board = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0]
     ]
-
-
-# Puts random numbers in places with 0, while following the rules of Sudoku
-def fill_board(board):
-    find = find_zero(board)
-    if not find:
-        return True
-    else:
-        row, col = find
-
-    numbers = [1,2,3,4,5,6,7,8,9]
-    shuffle(numbers)
-    for number in numbers:
-        # if is_valid == True --> place number in board
-        if is_valid(board, number, (row,col)): 
-            board[row][col] = number
-
-            # Retruns True is board is filed
-            if fill_board(board):
-                return True
-
-            #if board can't be solved it backtracks the last number
-            board[row][col] = 0
-    return False
-
-
-# Removes as many random numbers from board while still solvable
-def create_sudoku(board):
-    for i in range(0, 81):
-        row = randint(0,8)
-        col = randint(0,8)
-        board[row][col] = 0
-        for number in range(1, 10):
-            # if is_valid == True --> place number in board
-            if is_valid(board, number, (row,col)): 
-                board[row][col] = 0
-    return board
-
 
 # Print a better looking version of sudoku board
 def print_board(board):
@@ -122,18 +81,5 @@ def solve(board):
         board[row][col] = 0
     return False
 
-# Starts the game based on player input
-def start_game():
-    player_input = input('Do you want a new game of Sudoku? --> y/n\n')
-    if player_input == 'y':
-        fill_board(board)
-        create_sudoku(board)
-        print_board(board)
-        _input = input('Do you want it solved --> [y/n]\n')
-        if _input == 'y':
-            solve(board)
-            print_board(board)
-    else:
-        print('ok, bye')
-
-start_game()
+solve(board)
+print_board(board)
